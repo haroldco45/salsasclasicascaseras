@@ -64,10 +64,8 @@
 
         .card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
 
-        /* --- AJUSTE PROFESIONAL DE FOTOS --- */
         .img-wrapper {
             width: 100%;
-            /* Forzamos una altura más generosa para que no se vea como una tira */
             height: 220px; 
             overflow: hidden;
             background-color: #fff;
@@ -76,7 +74,6 @@
         .card-img {
             width: 100%;
             height: 100%;
-            /* 'cover' para que llene el espacio, pero con la altura de 220px ya no se verá cortada feo */
             object-fit: cover; 
             transition: transform 0.6s ease;
         }
@@ -152,7 +149,8 @@
         { id: 3, nombre: "Pico de Gallo", img: "picodegallo.JPG", ing: ["4 tomates picados", "½ cebolla picada", "1 jalapeño picado", "Cilantro y lima", "Sal al gusto"] },
         { id: 4, nombre: "Salsa Teriyaki", img: "salsateriyaki.JPG", ing: ["½ taza salsa de soya", "3 cdas azúcar morena", "2 cdas miel", "Ajo y jengibre", "Sésamo"] },
         { id: 5, nombre: "Pesto", img: "pesto.JPG", ing: ["2 tazas albahaca", "½ taza queso parmesano", "½ taza nueces", "2 dientes de ajo", "Aceite de oliva"] },
-        { id: 6, nombre: "Tzatziki", img: "tzatziki.JPG", ing: ["1 taza yogur griego", "½ pepino rallado", "Limón y ajo", "Eneldo fresco", "Sal y pimienta"] },
+        // AQUÍ ESTABA EL ERROR: Cambiado a Tzatziki.JPG (con T mayúscula)
+        { id: 6, nombre: "Tzatziki", img: "Tzatziki.JPG", ing: ["1 taza yogur griego", "½ pepino rallado", "Limón y ajo", "Eneldo fresco", "Sal y pimienta"] },
         { id: 7, nombre: "Salsa BBQ", img: "salsabbq.JPG", ing: ["1 taza salsa tomate", "¼ taza azúcar morena", "3 cdas vinagre", "2 cdas miel", "Mostaza"] },
         { id: 8, nombre: "Salsa Alfredo", img: "salsaalfredo.JPG", ing: ["1 taza crema para batir", "½ taza parmesano", "2 dientes de ajo", "2 cdas mantequilla", "Sal y pimienta"] },
         { id: 9, nombre: "Chimichurri", img: "chimichurri.JPG", ing: ["½ taza perejil picado", "¼ taza cilantro picado", "Aceite de oliva", "Ajo y vinagre", "Sal y pimienta"] }
