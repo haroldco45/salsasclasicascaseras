@@ -13,7 +13,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg);
             margin: 0;
             padding: 20px;
@@ -22,73 +22,91 @@
 
         header {
             text-align: center;
-            padding: 20px 0;
-            border-bottom: 2px solid var(--accent);
+            padding: 30px 0;
             margin-bottom: 30px;
         }
 
-        h1 { margin: 5px 0; font-size: 1.8rem; }
-        .subtitle { color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; }
+        h1 { margin: 10px 0; font-size: 2.2rem; color: var(--primary); }
 
         .search-container {
-            max-width: 600px;
-            margin: 0 auto 30px;
+            max-width: 500px;
+            margin: 0 auto 40px;
         }
 
         #searchInput {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             outline: none;
-            box-sizing: border-box;
+            font-size: 1rem;
         }
 
         .grid-salsas {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
         }
 
-        .card:hover { transform: translateY(-5px); }
+        .card:hover { transform: translateY(-10px); }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content { padding: 20px; }
 
         .card h3 {
             color: var(--accent);
-            margin-top: 0;
-            border-bottom: 1px solid #eee;
+            margin: 0 0 15px 0;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #f9f9f9;
             padding-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
         }
 
         .card ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .card li {
-            padding: 8px 0;
-            border-bottom: 1px solid #fafafa;
+            padding: 6px 0;
             font-size: 0.95rem;
+            color: #555;
+            display: flex;
+            align-items: center;
         }
 
-        .card li:last-child { border: none; }
+        .card li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 10px;
+        }
 
         footer {
             text-align: center;
-            margin-top: 50px;
-            font-size: 0.8rem;
-            color: #777;
+            margin-top: 60px;
+            padding: 20px;
+            font-size: 0.85rem;
+            color: #888;
+            border-top: 1px solid #eee;
         }
     </style>
 </head>
@@ -101,7 +119,7 @@
 </header>
 
 <div class="search-container">
-    <input type="text" id="searchInput" placeholder="Buscar salsa (ej: Pesto, Alfredo...)" onkeyup="filterSalsas()">
+    <input type="text" id="searchInput" placeholder="¿Qué salsa buscas hoy?" onkeyup="filterSalsas()">
 </div>
 
 <main class="grid-salsas" id="salsasList">
@@ -112,26 +130,30 @@
 </footer>
 
 <script>
+    // Se asume que las imágenes están en la misma carpeta que el index.html
     const salsas = [
-        { id: 1, nombre: "Aioli de Ajo", ingredientes: ["½ taza mayonesa", "2 dientes de ajo, picados", "1 cucharada de jugo de limón", "Sal y pimienta al gusto"] },
-        { id: 2, nombre: "Mostaza y Miel", ingredientes: ["½ taza mayonesa", "2 cucharadas de mostaza Dijon", "2 cucharadas de miel", "1 cucharada de vinagre", "Sal al gusto"] },
-        { id: 3, nombre: "Pico de Gallo", ingredientes: ["4 tomates, picados", "½ cebolla, picada", "1 jalapeño, picado", "2 cucharadas de cilantro picado", "Jugo de 1 lima", "Sal al gusto"] },
-        { id: 4, nombre: "Salsa Teriyaki", ingredientes: ["½ taza de salsa de soya", "3 cucharadas de azúcar morena", "2 cucharadas de miel", "1 cucharada de vinagre", "1 cucharada de sésamo", "Diente de ajo y jengibre picado"] },
-        { id: 5, nombre: "Pesto", ingredientes: ["2 tazas de albahaca", "½ taza de queso parmesano", "½ taza de nueces", "2 dientes de ajo", "½ taza de aceite de oliva", "Sal al gusto"] },
-        { id: 6, nombre: "Tzatziki", ingredientes: ["1 taza de yogur griego", "½ pepino rallado", "1 cucharada de jugo de limón", "2 dientes de ajo, picados", "2 cucharadas de eneldo fresco", "Sal y pimienta"] },
-        { id: 7, nombre: "Salsa BBQ", ingredientes: ["1 taza de salsa de tomate", "¼ taza de azúcar morena", "3 cucharadas de vinagre", "2 cucharadas de miel", "1 cucharada de mostaza", "Sal al gusto"] },
-        { id: 8, nombre: "Salsa Alfredo", ingredientes: ["1 taza de crema para batir", "½ taza de queso parmesano rallado", "2 dientes de ajo, picados", "2 cucharadas de mantequilla", "Sal y pimienta al gusto"] },
-        { id: 9, nombre: "Chimichurri", ingredientes: ["½ taza de perejil, picado", "¼ taza de cilantro, picado", "½ taza de aceite de oliva", "2 dientes de ajo picados", "2 cucharadas de vinagre", "Sal y pimienta al gusto"] }
+        { id: 1, nombre: "Aioli de Ajo", img: "aiolideajo.JPG", ing: ["½ taza mayonesa", "2 dientes de ajo picados", "1 cda jugo de limón", "Sal y pimienta"] },
+        { id: 2, nombre: "Mostaza y Miel", img: "mostazaymiel.JPG", ing: ["½ taza mayonesa", "2 cdas mostaza Dijon", "2 cdas miel", "1 cda vinagre", "Sal al gusto"] },
+        { id: 3, nombre: "Pico de Gallo", img: "picodegallo.JPG", ing: ["4 tomates picados", "½ cebolla picada", "1 jalapeño picado", "Cilantro y lima", "Sal al gusto"] },
+        { id: 4, nombre: "Salsa Teriyaki", img: "salsateriyaki.JPG", ing: ["½ taza salsa de soya", "3 cdas azúcar morena", "2 cdas miel", "Ajo y jengibre", "Sésamo"] },
+        { id: 5, nombre: "Pesto", img: "pesto.JPG", ing: ["2 tazas albahaca", "½ taza queso parmesano", "½ taza nueces", "2 dientes de ajo", "Aceite de oliva"] },
+        { id: 6, nombre: "Tzatziki", img: "tzatziki.JPG", ing: ["1 taza yogur griego", "½ pepino rallado", "Limón y ajo", "Eneldo fresco", "Sal y pimienta"] },
+        { id: 7, nombre: "Salsa BBQ", img: "salsabbq.JPG", ing: ["1 taza salsa tomate", "¼ taza azúcar morena", "3 cdas vinagre", "2 cdas miel", "Mostaza"] },
+        { id: 8, nombre: "Salsa Alfredo", img: "salsaalfredo.JPG", ing: ["1 taza crema para batir", "½ taza parmesano", "2 dientes de ajo", "2 cdas mantequilla", "Sal y pimienta"] },
+        { id: 9, nombre: "Chimichurri", img: "chimichurri.JPG", ing: ["½ taza perejil picado", "¼ taza cilantro picado", "Aceite de oliva", "Ajo y vinagre", "Sal y pimienta"] }
     ];
 
     function displaySalsas(data) {
         const container = document.getElementById('salsasList');
-        container.innerHTML = data.map(salsa => `
+        container.innerHTML = data.map(s => `
             <div class="card">
-                <h3><span>${salsa.id}.</span> ${salsa.nombre}</h3>
-                <ul>
-                    ${salsa.ingredientes.map(ing => `<li>${ing}</li>`).join('')}
-                </ul>
+                <img src="${s.img}" alt="${s.nombre}" class="card-img" onerror="this.src='https://via.placeholder.com/300x180?text=Salsa+Mauricio'">
+                <div class="card-content">
+                    <h3>${s.id}. ${s.nombre}</h3>
+                    <ul>
+                        ${s.ing.map(i => `<li>${i}</li>`).join('')}
+                    </ul>
+                </div>
             </div>
         `).join('');
     }
@@ -142,7 +164,6 @@
         displaySalsas(filtered);
     }
 
-    // Inicializar
     displaySalsas(salsas);
 </script>
 
